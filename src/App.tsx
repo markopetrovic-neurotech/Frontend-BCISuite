@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import icon from '../assets/icon.svg';
 import './App.global.css';
+//import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
-const Hello = () => {
+
+
+function Hello(){
+  let client = new WebSocket('ws://localhost:8080/ws')
+//
+//const client = new W3CWebSocket('ws://127.0.0.1:8080/ws');
+  useEffect(() => {
+    client.onopen = () => {
+      console.log('WebSocket Client Connected');
+      client.send("MESSAGE")
+    };
+    client.onerror= (message) => {
+      console.log(message);
+    };
+    client.onmessage = (message) => {
+      console.log(message);
+    };
+    client.onclose = () => {
+      console.log("closed")
+    }
+
+  }, [client])
   return (
     <div>
       <div className="Hello">
@@ -11,18 +33,16 @@ const Hello = () => {
       </div>
       <h1>electron-react-boilerplate</h1>
       <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
+
+          <button onClick={()=>{
+            client.send("TEST MESSAGE")
+          }} type="button">
             <span role="img" aria-label="books">
               📚
             </span>
             Read our docs
           </button>
-        </a>
+    
         <a
           href="https://github.com/sponsors/electron-react-boilerplate"
           target="_blank"
