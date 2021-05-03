@@ -14,5 +14,10 @@
     "postinstall": "yarn electron-rebuild"
   },
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@react-three/drei": "^4.3.3",
+    "@types/three": "^0.127.1",
+    "react-three-fiber": "^6.0.13",
+    "three": "^0.128.0"
+  }
 }

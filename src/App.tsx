@@ -1,31 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Canvas } from 'react-three-fiber';
+import Brain from './Canvas/Brain-centered';
 import icon from '../assets/icon.svg';
 import './App.global.css';
-//import { w3cwebsocket as W3CWebSocket } from 'websocket';
+// import { w3cwebsocket as W3CWebSocket } from 'websocket';
+const client = new WebSocket('ws://localhost:8080/ws');
 
-
-
-function Hello(){
-  let client = new WebSocket('ws://localhost:8080/ws')
-//
-//const client = new W3CWebSocket('ws://127.0.0.1:8080/ws');
+function Hello() {
+  // const client = new W3CWebSocket('ws://127.0.0.1:8080/ws');
   useEffect(() => {
     client.onopen = () => {
       console.log('WebSocket Client Connected');
-      client.send("MESSAGE")
+      client.send('MESSAGE');
     };
-    client.onerror= (message) => {
+    client.onerror = (message) => {
       console.log(message);
     };
     client.onmessage = (message) => {
       console.log(message);
     };
     client.onclose = () => {
-      console.log("closed")
-    }
+      console.log('closed');
+    };
+  }, []);
 
-  }, [client])
   return (
     <div>
       <div className="Hello">
@@ -33,16 +32,18 @@ function Hello(){
       </div>
       <h1>electron-react-boilerplate</h1>
       <div className="Hello">
+        <button
+          onClick={() => {
+            // client.send("TEST MESSAGE")
+          }}
+          type="button"
+        >
+          <span role="img" aria-label="books">
+            📚
+          </span>
+          Read our docs
+        </button>
 
-          <button onClick={()=>{
-            client.send("TEST MESSAGE")
-          }} type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-    
         <a
           href="https://github.com/sponsors/electron-react-boilerplate"
           target="_blank"
@@ -56,9 +57,14 @@ function Hello(){
           </button>
         </a>
       </div>
+      {/* <Canvas>
+        <Suspense fallback={null}>
+          <Brain />
+        </Suspense>
+      </Canvas> */}
     </div>
   );
-};
+}
 
 export default function App() {
   return (
