@@ -57,7 +57,7 @@ function Hello() {
           </button>
         </a>
       </div>
-      {/* <Canvas>
+      {/* <Canvas camera={{ position: [0, 0, 10] }}>
         <Suspense fallback={null}>
           <Brain />
         </Suspense>
