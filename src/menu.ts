@@ -284,7 +284,7 @@ export default class MenuBuilder {
         ],
       },
     ];
-
+    console.log(app.getPath('userData'));
     return templateDefault;
   }
 }
