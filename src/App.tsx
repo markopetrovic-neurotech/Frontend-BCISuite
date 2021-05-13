@@ -25,7 +25,7 @@ export default function App() {
       console.log(message);
     };
     client.onmessage = (message) => {
-      console.log(message);
+      console.log(message.data);
     };
     client.onclose = () => {
       console.log('closed');
