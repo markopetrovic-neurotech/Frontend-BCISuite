@@ -1,44 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/order */
-import React, { useEffect, Suspense, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Canvas } from 'react-three-fiber';
-import Brain from './Canvas/Spineless';
-import icon from '../assets/icon.svg';
-import {
-  Html,
-  PerspectiveCamera,
-  OrbitControls,
-  OrthographicCamera,
-  FlyControls,
-} from '@react-three/drei';
+import React, { useEffect, Suspense, useState, useRef } from 'react';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import BrainCanvas from './Canvas/BrainCanvas';
+import { Frame } from 'stompjs';
+import { SockJsProvider } from 'use-sockjs';
+import EEGgraph from './Graphs/EEG_Graph';
+import Header from './Header';
 import './App.global.css';
 
-const client = new WebSocket('ws://localhost:8080/socket');
-
 export default function App() {
-  useEffect(() => {
-    client.onopen = () => {
-      console.log('WebSocket Client Connected');
-      client.send('MESSAGE');
-    };
-    client.onerror = (message) => {
-      console.log(message);
-    };
-    client.onmessage = (message) => {
-      console.log(message);
-    };
-    client.onclose = () => {
-      console.log('closed');
-    };
-  }, []);
-  const [response, setResponse] = useState('');
-
   return (
-    <Canvas camera={{ position: [0, 0, 10] }}>
-      <OrbitControls autoRotate/>
-      <Suspense fallback={null}>
-        <Brain />
-      </Suspense>
-    </Canvas>
+    <SockJsProvider
+      onError={(error: Frame | string) => {
+        console.log(error);
+      }}
+    >
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/" exact component={EEGgraph} />
+          <Route path="/brain" exact component={BrainCanvas} />
+        </Switch>
+      </Router>
+      {/* TODO: Not currently doing anything with this provider */}
+    </SockJsProvider>
   );
 }
