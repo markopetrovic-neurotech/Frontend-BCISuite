@@ -14,9 +14,8 @@ import {
 import { useSockJs } from 'use-sockjs';
 import * as Stomp from 'stompjs';
 
-const client = new WebSocket('ws://localhost:8080/socket');
-
 export default function EEGGraph() {
+  const client = new WebSocket('ws://localhost:8080/socket');
   /*
   TODO: Use SockJS with StompJS to connect, subscribe and send messages to a Spring STOMP WebSocket Broker
 
