@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/order */
 import React, { useEffect, Suspense, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { Client, Frame, Message, Subscription } from 'stompjs';
 import {
   CartesianGrid,
@@ -13,6 +14,7 @@ import {
 } from 'recharts';
 import { useSockJs } from 'use-sockjs';
 import * as Stomp from 'stompjs';
+import getChannelData from '../Actions/GetChannelData';
 
 export default function EEGGraph() {
   const client = new WebSocket('ws://localhost:8080/socket');
@@ -70,6 +72,8 @@ export default function EEGGraph() {
   }, [client, client && client.connected]); */
   const [data, setData]: any[] = useState([]);
 
+  const dispatch = useDispatch()
+
   useEffect(() => {
     client.onopen = () => {
       console.log('WebSocket Client Connected');
@@ -82,9 +86,10 @@ export default function EEGGraph() {
     client.onmessage = (message: any) => {
       const eegData: any = JSON.parse(message.data);
       // console.log(eegData[0][0]);
-      setData((currentData: any) => {
+      dispatch(getChannelData(eegData))
+      /*setData((currentData: any) => {
         return [...currentData, { channel1: eegData[0][0] }];
-      });
+      });*/
     };
     client.onclose = () => {
       console.log('closed');

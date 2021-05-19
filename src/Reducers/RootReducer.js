@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-//import captions from "./captionReducer"
+import channels from "./AllChannelsReducer"
 
 const rootReducer = combineReducers({ 
-  allChannelsReducer: //captions
+  allChannelsReducer: channels
 });
 
 export default rootReducer;
