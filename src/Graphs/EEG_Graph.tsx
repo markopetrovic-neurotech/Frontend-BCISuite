@@ -68,7 +68,7 @@ export default function EEGGraph() {
       disconnect();
     };
   }, [client, client && client.connected]); */
-  const [data, setData] = useState([]);
+  const [data, setData]: any[] = useState([]);
 
   useEffect(() => {
     client.onopen = () => {
