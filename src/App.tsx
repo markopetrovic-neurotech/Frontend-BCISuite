@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/order */
-import React, { useEffect, Suspense, useState, useRef } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React, {  } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import BrainCanvas from './Canvas/BrainCanvas';
 import { Frame } from 'stompjs';
 import { Provider } from 'react-redux'
