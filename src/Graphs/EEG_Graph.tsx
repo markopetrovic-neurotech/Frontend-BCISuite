@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/order */
 import React, { useEffect, Suspense, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Client, Frame, Message, Subscription } from 'stompjs';
 import {
   CartesianGrid,
@@ -70,9 +70,9 @@ export default function EEGGraph() {
       disconnect();
     };
   }, [client, client && client.connected]); */
-  const [data, setData]: any[] = useState([]);
 
   const dispatch = useDispatch()
+  const currentData = useSelector((state : any) => state.allChannelsReducer.currentData)
 
   useEffect(() => {
     client.onopen = () => {
@@ -85,22 +85,18 @@ export default function EEGGraph() {
     };
     client.onmessage = (message: any) => {
       const eegData: any = JSON.parse(message.data);
-      // console.log(eegData[0][0]);
       dispatch(getChannelData(eegData))
-      /*setData((currentData: any) => {
-        return [...currentData, { channel1: eegData[0][0] }];
-      });*/
     };
     client.onclose = () => {
       console.log('closed');
     };
-  }, []);
+  }, []);  
 
   return (
     <LineChart
       width={800}
       height={400}
-      data={data}
+      data={currentData}
       margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
     >
       <XAxis

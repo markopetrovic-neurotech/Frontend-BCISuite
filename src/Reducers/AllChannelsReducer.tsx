@@ -4,14 +4,14 @@ const initState = {
     currentData: []
 }
 
-export default function channels(state = initState, action){
+export default function channels(state = initState, action: any){
     switch(action.type){
         case RECEIVED_EEG_CHANNEL_DATA:
             return Object.assign({}, state, {
                 currentData: [
                     ...state.currentData,
                     {
-                        channel_1: action.payload[0][0]
+                        channel1: action.payload[0][0]
                     },
                 ]
             })
