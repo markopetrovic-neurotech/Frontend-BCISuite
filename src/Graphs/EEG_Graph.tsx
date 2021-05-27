@@ -2,13 +2,6 @@
 /* eslint-disable import/order */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Label,
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-} from 'recharts';
 import * as d3 from "d3";
 import getChannelData from '../Actions/GetChannelData';
 
@@ -81,7 +74,7 @@ export default function EEGGraph() {
       client.send('MESSAGE');
     };
     client.onerror = (message) => {
-      console.log("An error occured");
+      console.log("An error occured\n"+message);
       dispatch(getChannelData([[shiftingData[100]]]))
     };
     client.onmessage = (message: any) => {
@@ -182,41 +175,5 @@ export default function EEGGraph() {
         .attr('d', line);
   }
 
-  return (
-    <div>
-      {/*
-      <LineChart
-        width={800}
-        height={400}
-        data={currentData}
-        margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-      >
-        <XAxis
-          dataKey="time"
-          // tickFormatter={(timeStr) => moment(timeStr).format('HH:mm')}
-        />
-        <YAxis>
-          <Label
-            value="micro Volts"
-            position="left"
-            angle={-90}
-            style={{ textAnchor: 'middle' }}
-          />
-        </YAxis>
-        {/* <Tooltip />
-        <CartesianGrid stroke="#f5f5f5" /> }
-        <Line
-          activeDot
-          type="monotone"
-          dataKey="channel1"
-          stroke="#ff7300"
-          yAxisId={0}
-        />
-        {/* <Line type="monotone" dataKey="pv" stroke="#387908" yAxisId={1} /> }
-      </LineChart>
-      */}
-      <hr />
-      <div id="chart"></div>
-    </div>
-  );
+  return <div id="chart"></div>
 }
