@@ -7,6 +7,10 @@ import getChannelData from '../Actions/GetChannelData';
 
 const client = new WebSocket('ws://localhost:8080/socket');
 
+export function closeClientConn(){
+  client.close()
+}
+
 export default function EEGGraph() {
   /*
   TODO: Use SockJS with StompJS to connect, subscribe and send messages to a Spring STOMP WebSocket Broker
@@ -65,9 +69,11 @@ export default function EEGGraph() {
   const dispatch = useDispatch()
   const currentData = useSelector((state : any) => state.allChannelsReducer.currentData)
   const [shiftingData, setShiftingData] = useState<dataType[]>([])
-
-  useEffect(() => {
+  const [didSeedData, setDidSeedData] = useState(false)
+  if(!didSeedData)
     seedData();
+
+  useEffect(() => {    
     client.send('message')
     client.onopen = () => {
       console.log('WebSocket Client Connected');
@@ -107,6 +113,7 @@ export default function EEGGraph() {
       }
       tempShiftingData.push(flatData)
     }
+    setDidSeedData(true)
     setShiftingData(tempShiftingData)
   }
   
